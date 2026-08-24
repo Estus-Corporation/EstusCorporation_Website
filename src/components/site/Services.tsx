@@ -92,9 +92,9 @@ export function Services() {
       <div className="grain pointer-events-none absolute inset-0 opacity-30" />
 
       <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
-        <div className="reveal" data-reveal>
+        <div className="reveal mx-auto max-w-3xl text-center" data-reveal>
           <p className="eyebrow">Soluções</p>
-          <h2 className="mt-5 max-w-3xl text-3xl font-semibold leading-tight text-foreground md:text-5xl">
+          <h2 className="mt-5 text-3xl font-semibold leading-tight text-foreground md:text-5xl">
             Quatro frentes, <span className="text-silver-gradient">um só objetivo</span>:{" "}
             <span
               style={{
@@ -105,7 +105,7 @@ export function Services() {
               mais clientes chegando até você
             </span>
           </h2>
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground">
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground">
             Cada serviço funciona sozinho, mas o resultado real aparece quando eles trabalham juntos
             — anúncio trazendo gente, site convertendo e busca sustentando o crescimento.
           </p>

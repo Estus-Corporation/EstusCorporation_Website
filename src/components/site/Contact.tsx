@@ -38,8 +38,16 @@ ${form.mensagem}`;
       <div className="relative mx-auto grid max-w-[1400px] gap-14 px-4 sm:px-6 lg:px-8 md:grid-cols-2">
         <div className="reveal" data-reveal>
           <p className="eyebrow">Fale com a gente</p>
-          <h2 className="mt-5 text-3xl font-semibold leading-tight md:text-4xl">
-            Vamos montar seu plano de crescimento
+          <h2 className="mt-5 text-3xl font-semibold leading-tight md:text-5xl">
+            Vamos montar seu{" "}
+            <span
+              style={{
+                color: "#4BD6A2",
+                textShadow: "0 0 18px rgba(75, 214, 162, 0.55), 0 0 42px rgba(75, 214, 162, 0.3)",
+              }}
+            >
+              plano de crescimento
+            </span>
           </h2>
           <p className="mt-5 text-base leading-relaxed text-muted-foreground">
             Conte rapidamente sobre seu negócio. Respondemos com um diagnóstico inicial e o próximo

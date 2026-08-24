@@ -82,13 +82,22 @@ export function Process() {
       <div className="grid-backdrop-neutral pointer-events-none absolute inset-0 opacity-[0.35] [mask-image:radial-gradient(65%_55%_at_50%_10%,black,transparent)]" />
       <div className="grain pointer-events-none absolute inset-0 opacity-30" />
       <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
-        <div className="reveal mx-auto max-w-2xl text-center" data-reveal>
+        <div className="reveal mx-auto max-w-3xl text-center" data-reveal>
           <p className="eyebrow">Como trabalhamos</p>
-          <h2 className="mt-5 text-3xl font-semibold leading-tight text-foreground md:text-4xl">
-            Um processo simples, com{" "}
-            <span className="text-silver-gradient">responsabilidade sobre o resultado</span>
+          <h2 className="mt-5 text-3xl font-semibold leading-tight text-foreground md:text-5xl">
+            Um processo simples, com
+            <br />
+            <span
+              className="md:whitespace-nowrap"
+              style={{
+                color: "#4BD6A2",
+                textShadow: "0 0 18px rgba(75, 214, 162, 0.55), 0 0 42px rgba(75, 214, 162, 0.3)",
+              }}
+            >
+              responsabilidade sobre o resultado
+            </span>
           </h2>
-          <p className="mt-5 text-base leading-relaxed text-muted-foreground">
+          <p className="mt-5 max-w-2xl mx-auto text-base leading-relaxed text-muted-foreground">
             Quatro etapas claras, do primeiro diagnóstico ao ciclo contínuo de otimização.
           </p>
         </div>

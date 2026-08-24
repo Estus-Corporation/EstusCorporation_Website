@@ -56,8 +56,16 @@ export function Testimonials() {
           data-reveal
         >
           <p className="eyebrow">Depoimentos</p>
-          <h2 className="mt-5 text-3xl font-semibold leading-tight md:text-4xl">
-            Quem já está crescendo com a gente
+          <h2 className="mt-5 text-3xl font-semibold leading-tight md:text-5xl">
+            Quem já está{" "}
+            <span
+              style={{
+                color: "#4BD6A2",
+                textShadow: "0 0 18px rgba(75, 214, 162, 0.55), 0 0 42px rgba(75, 214, 162, 0.3)",
+              }}
+            >
+              crescendo com a gente
+            </span>
           </h2>
           <p className="mt-5 text-base leading-relaxed text-muted-foreground">
             Micro e pequenas empresas que saíram do achismo e passaram a acompanhar cada contato que
@@ -76,10 +84,25 @@ export function Testimonials() {
               <div className="flex items-center justify-between">
                 <span className="flex gap-1">
                   {Array.from({ length: 5 }).map((_, s) => (
-                    <Star key={s} className="size-3.5 fill-current text-foreground" />
+                    <Star
+                      key={s}
+                      className="size-3.5 fill-current"
+                      style={{
+                        color: "#4BD6A2",
+                        filter:
+                          "drop-shadow(0 0 6px rgba(75, 214, 162, 0.55)) drop-shadow(0 0 14px rgba(75, 214, 162, 0.3))",
+                      }}
+                    />
                   ))}
                 </span>
-                <Quote className="size-7 text-foreground/20" />
+                <Quote
+                  className="size-7"
+                  style={{
+                    color: "#4BD6A2",
+                    filter:
+                      "drop-shadow(0 0 6px rgba(75, 214, 162, 0.55)) drop-shadow(0 0 14px rgba(75, 214, 162, 0.3))",
+                  }}
+                />
               </div>
               <blockquote className="mt-7 font-display text-lg font-medium leading-relaxed text-foreground/90 md:text-xl">
                 “{t.text}”

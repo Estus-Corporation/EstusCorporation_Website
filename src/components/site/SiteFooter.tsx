@@ -16,7 +16,6 @@ function WhatsAppIcon({ className = "" }: { className?: string }) {
 const nav = [
   { href: "#servicos", label: "Serviços" },
   { href: "#processo", label: "Processo" },
-  { href: "#projetos", label: "Projetos" },
   { href: "#depoimentos", label: "Depoimentos" },
   { href: "#contato", label: "Contato" },
 ];

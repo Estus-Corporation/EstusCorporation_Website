@@ -4,7 +4,6 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 import { Hero } from "@/components/site/Hero";
 import { Services } from "@/components/site/Services";
 import { Process } from "@/components/site/Process";
-import { Projects } from "@/components/site/Projects";
 import { Testimonials } from "@/components/site/Testimonials";
 
 import { Contact } from "@/components/site/Contact";
@@ -36,7 +35,6 @@ function Index() {
         <Hero />
         <Services />
         <Process />
-        <Projects />
         <Testimonials />
 
         <Contact />
