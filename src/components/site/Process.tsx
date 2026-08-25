@@ -42,7 +42,7 @@ const steps = [
   },
 ];
 
-const STEP_MS = 2000;
+const STEP_MS = 5000;
 const MINT = "#4BD6A2";
 
 function ProcessCard({
