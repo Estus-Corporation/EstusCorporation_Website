@@ -31,6 +31,7 @@ ${form.mensagem}`;
       <SectionBackdrop
         image={contactBg}
         overlay="bg-gradient-to-b from-background/80 via-background/88 to-background"
+        flip
       />
       <div className="ambient-aurora pointer-events-none absolute inset-0 opacity-40" />
       <div className="grain pointer-events-none absolute inset-0 opacity-30" />

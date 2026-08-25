@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { ClipboardList, Compass, Rocket, TrendingUp } from "lucide-react";
 
 import { useReveal } from "@/hooks/use-reveal";
@@ -37,13 +37,12 @@ const steps = [
 ];
 
 const STEP_MS = 3600;
+const MINT = "#4BD6A2";
 
 export function Process() {
   const ref = useReveal<HTMLElement>();
-  const railRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const [inView, setInView] = useState(false);
-  const [userInteracted, setUserInteracted] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -59,47 +58,19 @@ export function Process() {
     return () => observer.disconnect();
   }, [ref]);
 
-  // Auto-avanço: pausa assim que o usuário interage com o carrossel (swipe/click)
   useEffect(() => {
-    if (!inView || userInteracted) return;
+    if (!inView) return;
     const id = window.setInterval(() => {
       setActive((prev) => (prev + 1) % steps.length);
     }, STEP_MS);
     return () => window.clearInterval(id);
-  }, [inView, userInteracted]);
-
-  // No mobile, ao mudar `active` via auto-avanço ou pelos dots, rola o trilho até o card
-  useEffect(() => {
-    const rail = railRef.current;
-    if (!rail) return;
-    const card = rail.children[active] as HTMLElement | undefined;
-    if (!card) return;
-    rail.scrollTo({ left: card.offsetLeft - rail.offsetLeft, behavior: "smooth" });
-  }, [active]);
-
-  // Detecta swipe manual no trilho (mobile) e sincroniza `active` + pausa auto-avanço
-  const handleRailScroll = () => {
-    const rail = railRef.current;
-    if (!rail) return;
-    setUserInteracted(true);
-    const cards = Array.from(rail.children) as HTMLElement[];
-    let closest = 0;
-    let min = Infinity;
-    cards.forEach((c, i) => {
-      const d = Math.abs(c.offsetLeft - rail.offsetLeft - rail.scrollLeft);
-      if (d < min) {
-        min = d;
-        closest = i;
-      }
-    });
-    setActive(closest);
-  };
+  }, [inView]);
 
   return (
     <section
       ref={ref}
       id="processo"
-      className="relative overflow-hidden section-dark py-20 md:py-36"
+      className="relative overflow-hidden section-dark py-28 md:py-36"
     >
       <img
         src={processBg}
@@ -119,7 +90,10 @@ export function Process() {
             <br />
             <span
               className="md:whitespace-nowrap"
-              style={{ color: "var(--mint)", textShadow: "var(--mint-glow)" }}
+              style={{
+                color: "#4BD6A2",
+                textShadow: "0 0 18px rgba(75, 214, 162, 0.55), 0 0 42px rgba(75, 214, 162, 0.3)",
+              }}
             >
               responsabilidade sobre o resultado
             </span>
@@ -129,41 +103,29 @@ export function Process() {
           </p>
         </div>
 
-        {/* Barra de progresso — funciona como indicador do carrossel no mobile */}
-        <div className="reveal mx-auto mt-10 max-w-3xl md:mt-14" data-reveal>
+        {/* Barra de progresso sutil */}
+        <div className="reveal mx-auto mt-14 max-w-3xl" data-reveal>
           <div className="relative h-1 overflow-hidden rounded-full bg-foreground/10">
             <span
-              className="absolute inset-y-0 left-0 bg-primary transition-all duration-700 ease-out"
-              style={{ width: `${((active + 1) / steps.length) * 100}%` }}
+              className="absolute inset-y-0 left-0 transition-all duration-700 ease-out"
+              style={{ width: `${((active + 1) / steps.length) * 100}%`, background: MINT }}
             />
           </div>
           <div className="mt-3 flex justify-between text-xs font-semibold text-muted-foreground">
             {steps.map((s, i) => (
-              <button
+              <span
                 key={s.step}
-                type="button"
-                onClick={() => {
-                  setUserInteracted(true);
-                  setActive(i);
-                }}
-                className={cn(
-                  "flex min-h-11 min-w-11 items-center justify-center cursor-pointer transition-colors duration-500",
-                  i <= active ? "text-primary" : "text-muted-foreground",
-                )}
+                className="transition-colors duration-500"
+                style={{ color: i <= active ? MINT : undefined }}
               >
                 {s.step}
-              </button>
+              </span>
             ))}
           </div>
         </div>
 
-        {/* Cards de passos — trilho com swipe no mobile, grid no desktop */}
-        <div
-          ref={railRef}
-          onScroll={handleRailScroll}
-          data-reveal
-          className="reveal snap-rail no-scrollbar -mx-4 mt-10 gap-4 px-4 pb-2 md:mx-0 md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4"
-        >
+        {/* Cards de passos */}
+        <div className="reveal mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4" data-reveal>
           {steps.map((s, i) => {
             const Icon = s.icon;
             const isActive = i === active;
@@ -173,42 +135,46 @@ export function Process() {
               <div
                 key={s.step}
                 className={cn(
-                  "snap-rail-item group relative flex w-[82vw] flex-col overflow-hidden rounded-2xl border bg-surface p-7 transition-all duration-500 hover-lift sm:w-[60vw] md:w-auto",
-                  isActive
-                    ? "border-primary shadow-[var(--shadow-glow)]"
-                    : isDone
-                      ? "border-primary/40"
-                      : "border-border",
+                  "group relative flex flex-col overflow-hidden rounded-2xl border bg-surface p-7 transition-all duration-500 hover-lift",
+                  !isActive && !isDone && "border-border",
                 )}
+                style={{
+                  borderColor: isActive ? MINT : isDone ? `${MINT}66` : undefined,
+                  boxShadow: isActive
+                    ? `0 0 0 1px ${MINT}33, 0 24px 60px -24px rgba(75, 214, 162, 0.35)`
+                    : undefined,
+                }}
               >
                 {/* canto superior direito: número do passo */}
                 <span
                   className={cn(
                     "absolute right-5 top-5 font-display text-4xl font-bold leading-none transition-colors duration-500",
-                    isActive || isDone ? "text-primary/25" : "text-foreground/10",
+                    !isActive && !isDone && "text-foreground/10",
                   )}
+                  style={{ color: isActive || isDone ? `${MINT}40` : undefined }}
                 >
                   {s.step}
                 </span>
 
                 {/* linha de destaque no topo */}
                 <span
-                  className={cn(
-                    "absolute left-0 right-0 top-0 h-1 transition-all duration-500",
-                    isActive || isDone ? "bg-primary" : "bg-transparent",
-                  )}
+                  className="absolute left-0 right-0 top-0 h-1 transition-all duration-500"
+                  style={{ background: isActive || isDone ? MINT : "transparent" }}
                 />
 
                 {/* ícone */}
                 <span
                   className={cn(
                     "flex size-12 items-center justify-center rounded-xl border transition-all duration-500",
-                    isActive
-                      ? "border-primary bg-primary/10 text-primary"
-                      : isDone
-                        ? "border-primary/40 text-primary/80"
-                        : "border-border bg-surface-2 text-muted-foreground",
+                    !isActive && !isDone && "border-border bg-surface-2 text-muted-foreground",
                   )}
+                  style={
+                    isActive
+                      ? { borderColor: MINT, backgroundColor: `${MINT}1a`, color: MINT }
+                      : isDone
+                        ? { borderColor: `${MINT}66`, color: `${MINT}cc` }
+                        : undefined
+                  }
                 >
                   <Icon
                     className={cn(
@@ -219,10 +185,8 @@ export function Process() {
                 </span>
 
                 <h3
-                  className={cn(
-                    "mt-6 font-display text-xl font-semibold transition-colors duration-500",
-                    isActive ? "text-primary" : "text-foreground",
-                  )}
+                  className="mt-6 font-display text-xl font-semibold text-foreground transition-colors duration-500"
+                  style={{ color: isActive ? MINT : undefined }}
                 >
                   {s.title}
                 </h3>

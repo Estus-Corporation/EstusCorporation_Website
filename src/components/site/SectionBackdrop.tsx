@@ -5,10 +5,12 @@ export function SectionBackdrop({
   image,
   position = "center",
   overlay = "bg-gradient-to-b from-background/45 via-background/35 to-background/55",
+  flip = false,
 }: {
   image: string;
   position?: string;
   overlay?: string;
+  flip?: boolean;
 }) {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
@@ -18,7 +20,7 @@ export function SectionBackdrop({
         loading="lazy"
         width={1920}
         height={1200}
-        className="absolute inset-0 size-full object-cover"
+        className={`absolute inset-0 size-full object-cover ${flip ? "scale-y-[-1]" : ""}`}
         style={{ objectPosition: position }}
       />
       <div className={`absolute inset-0 ${overlay}`} />
