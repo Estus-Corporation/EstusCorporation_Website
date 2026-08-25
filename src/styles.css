@@ -64,6 +64,13 @@
   --star: oklch(0.2 0 0);
   --radius: 0.5rem;
 
+  /* Verde menta de destaque — usado nos títulos e detalhes das seções escuras */
+  --mint: #4bd6a2;
+  --mint-glow: 0 0 18px rgba(75, 214, 162, 0.55), 0 0 42px rgba(75, 214, 162, 0.3);
+
+  /* Altura do header fixo — usada no scroll-margin das âncoras */
+  --header-h: 5rem;
+
   /* Tema claro: cinza médio, preto só no header e detalhes. */
   --background: oklch(0.86 0 0);
   --foreground: oklch(0.12 0 0);
@@ -128,11 +135,21 @@
     border-color: var(--color-border);
   }
 
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  section[id] {
+    scroll-margin-top: var(--header-h);
   }
 
   h1,
@@ -316,6 +333,28 @@
 @utility card-shine {
   position: relative;
   overflow: hidden;
+}
+
+@utility snap-rail {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+@utility snap-rail-item {
+  scroll-snap-align: start;
+  flex: none;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @utility hover-lift {

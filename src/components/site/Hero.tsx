@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, TrendingUp, Clock, ShieldCheck } from "lucide-react";
+import { ArrowRight, LineChart, Clock, ShieldCheck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useReveal } from "@/hooks/use-reveal";
@@ -7,7 +7,7 @@ import LightRays from "@/components/ui/light-rays";
 import { WHATSAPP_LINK } from "./contact-info";
 
 const stats = [
-  { value: "+3x", label: "retorno médio", icon: TrendingUp },
+  { value: "+3x", label: "retorno médio", icon: LineChart },
   { value: "7 dias", label: "primeiro site no ar", icon: Clock },
   { value: "100%", label: "relatórios claros", icon: ShieldCheck },
 ];
@@ -28,7 +28,7 @@ export function Hero() {
     <section
       ref={ref}
       id="top"
-      className="section-dark relative overflow-hidden pb-24 pt-40 md:pb-32 md:pt-48"
+      className="section-dark relative flex min-h-[100dvh] flex-col justify-center overflow-hidden pb-16 pt-28 md:min-h-0 md:pb-32 md:pt-48"
     >
       <img
         src="/bg-hero.png"
@@ -63,13 +63,13 @@ export function Hero() {
         <h1
           data-reveal
           style={{ "--reveal-delay": "90ms" } as React.CSSProperties}
-          className="reveal mt-7 max-w-4xl text-4xl font-semibold leading-[1.04] tracking-tight text-foreground sm:text-5xl md:text-[4rem]"
+          className="reveal mt-6 max-w-4xl text-[2.5rem] font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl md:mt-7 md:text-[4rem]"
         >
           A presença digital que{" "}
           <span
             style={{
-              color: "#4BD6A2",
-              textShadow: "0 0 18px rgba(75, 214, 162, 0.55), 0 0 42px rgba(75, 214, 162, 0.3)",
+              color: "var(--mint)",
+              textShadow: "var(--mint-glow)",
             }}
           >
             seu negócio{" "}
@@ -130,18 +130,20 @@ export function Hero() {
         <div
           data-reveal
           style={{ "--reveal-delay": "440ms" } as React.CSSProperties}
-          className="reveal mt-14 grid w-full max-w-xl grid-cols-1 gap-3 sm:grid-cols-3"
+          className="reveal mt-10 grid w-full max-w-xl grid-cols-3 gap-2 md:mt-14 md:gap-3"
         >
           {stats.map((s, i) => (
             <div
               key={s.label}
-              className={`flex flex-col items-start gap-2 px-3 first:pl-0 ${i > 0 ? "sm:border-l sm:border-border" : ""}`}
+              className={`flex min-w-0 flex-col items-start gap-1.5 px-3 first:pl-0 ${i > 0 ? "border-l border-border" : ""}`}
             >
-              <s.icon className="size-4 text-foreground/70" />
-              <span className="font-display text-2xl font-semibold leading-none text-foreground">
+              <s.icon className="block size-4 shrink-0 text-foreground/70" />
+              <span className="font-display text-lg font-semibold leading-none text-foreground md:text-2xl">
                 {s.value}
               </span>
-              <span className="text-xs text-muted-foreground">{s.label}</span>
+              <span className="text-[0.7rem] leading-tight text-muted-foreground md:text-xs">
+                {s.label}
+              </span>
             </div>
           ))}
         </div>

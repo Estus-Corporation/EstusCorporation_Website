@@ -8,6 +8,7 @@ import { Testimonials } from "@/components/site/Testimonials";
 
 import { Contact } from "@/components/site/Contact";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { FloatingWhatsApp } from "@/components/site/FloatingWhatsApp";
 
 const title = "Estus Corporation | Tráfego pago, sites e SEO para seu negócio";
 const description =
@@ -40,6 +41,7 @@ function Index() {
         <Contact />
       </main>
       <SiteFooter />
+      <FloatingWhatsApp />
     </div>
   );
 }

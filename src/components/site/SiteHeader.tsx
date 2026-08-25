@@ -50,7 +50,7 @@ export function SiteHeader() {
           type="button"
           aria-label={open ? "Fechar menu" : "Abrir menu"}
           onClick={() => setOpen((v) => !v)}
-          className="cursor-pointer rounded-md border border-header-border p-2 text-header-foreground md:hidden"
+          className="flex size-11 cursor-pointer items-center justify-center rounded-md border border-header-border text-header-foreground md:hidden"
         >
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
         </button>
@@ -64,7 +64,7 @@ export function SiteHeader() {
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="border-b border-header-border py-3 text-sm text-header-foreground/70"
+                className="flex min-h-11 items-center border-b border-header-border py-3 text-sm text-header-foreground/70"
               >
                 {l.label}
               </a>

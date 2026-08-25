@@ -46,8 +46,8 @@ export function SiteFooter() {
         }}
       />
       <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr_1.2fr] md:py-20">
-          <div>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 py-12 sm:grid-cols-[1.4fr_1fr_1fr_1.2fr] sm:gap-12 md:py-20">
+          <div className="col-span-2 sm:col-span-1">
             <Logo />
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-header-foreground/50">
               Agência de soluções digitais para micro e pequenas empresas: tráfego pago, sites que
@@ -84,7 +84,7 @@ export function SiteFooter() {
                 <li key={l.href}>
                   <a
                     href={l.href}
-                    className="group inline-flex items-center gap-1 text-sm text-header-foreground/50 transition-colors hover:text-header-foreground"
+                    className="group flex min-h-11 items-center gap-1 text-sm text-header-foreground/50 transition-colors hover:text-header-foreground"
                   >
                     {l.label}
                     <ArrowUpRight className="size-3 opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100" />
@@ -107,7 +107,7 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          <div>
+          <div className="col-span-2 sm:col-span-1">
             <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-header-foreground">
               Contato
             </p>
@@ -117,7 +117,7 @@ export function SiteFooter() {
                   href={WHATSAPP_LINK}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-3 text-header-foreground/50 transition-colors hover:text-header-foreground"
+                  className="flex min-h-11 items-center gap-3 text-header-foreground/50 transition-colors hover:text-header-foreground"
                 >
                   <MessageCircle className="size-4 text-header-foreground/50" />
                   {PHONE_DISPLAY}
@@ -126,7 +126,7 @@ export function SiteFooter() {
               <li>
                 <a
                   href={`mailto:${EMAIL}`}
-                  className="flex items-center gap-3 text-header-foreground/50 transition-colors hover:text-header-foreground"
+                  className="flex min-h-11 items-center gap-3 text-header-foreground/50 transition-colors hover:text-header-foreground"
                 >
                   <Mail className="size-4 text-header-foreground/50" />
                   {EMAIL}
