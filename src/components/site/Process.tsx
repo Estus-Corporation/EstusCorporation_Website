@@ -4,6 +4,12 @@ import { ClipboardList, Compass, Rocket, TrendingUp } from "lucide-react";
 import { useReveal } from "@/hooks/use-reveal";
 import { cn } from "@/lib/utils";
 import processBg from "@/assets/section-process-bg.jpg";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
 
 const steps = [
   {
@@ -36,13 +42,86 @@ const steps = [
   },
 ];
 
-const STEP_MS = 3600;
+const STEP_MS = 2000;
 const MINT = "#4BD6A2";
+
+function ProcessCard({
+  s,
+  isActive,
+  isDone,
+}: {
+  s: (typeof steps)[number];
+  isActive: boolean;
+  isDone: boolean;
+}) {
+  const Icon = s.icon;
+
+  return (
+    <div
+      className={cn(
+        "group relative flex h-full flex-col overflow-hidden rounded-2xl border bg-surface p-7 transition-all duration-500 hover-lift",
+        !isActive && !isDone && "border-border",
+      )}
+      style={{
+        borderColor: isActive ? MINT : isDone ? `${MINT}66` : undefined,
+        boxShadow: isActive
+          ? `0 0 0 1px ${MINT}33, 0 24px 60px -24px rgba(75, 214, 162, 0.35)`
+          : undefined,
+      }}
+    >
+      {/* canto superior direito: número do passo */}
+      <span
+        className={cn(
+          "absolute right-5 top-5 font-display text-4xl font-bold leading-none transition-colors duration-500",
+          !isActive && !isDone && "text-foreground/10",
+        )}
+        style={{ color: isActive || isDone ? `${MINT}40` : undefined }}
+      >
+        {s.step}
+      </span>
+
+      {/* linha de destaque no topo */}
+      <span
+        className="absolute left-0 right-0 top-0 h-1 transition-all duration-500"
+        style={{ background: isActive || isDone ? MINT : "transparent" }}
+      />
+
+      {/* ícone */}
+      <span
+        className={cn(
+          "flex size-12 items-center justify-center rounded-xl border transition-all duration-500",
+          !isActive && !isDone && "border-border bg-surface-2 text-muted-foreground",
+        )}
+        style={
+          isActive
+            ? { borderColor: MINT, backgroundColor: `${MINT}1a`, color: MINT }
+            : isDone
+              ? { borderColor: `${MINT}66`, color: `${MINT}cc` }
+              : undefined
+        }
+      >
+        <Icon className={cn("size-5 transition-transform duration-500", isActive && "scale-110")} />
+      </span>
+
+      <h3
+        className="mt-6 font-display text-xl font-semibold text-foreground transition-colors duration-500"
+        style={{ color: isActive ? MINT : undefined }}
+      >
+        {s.title}
+      </h3>
+
+      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
+
+      <p className="mt-auto pt-5 text-xs leading-relaxed text-foreground/70">{s.detail}</p>
+    </div>
+  );
+}
 
 export function Process() {
   const ref = useReveal<HTMLElement>();
   const [active, setActive] = useState(0);
   const [inView, setInView] = useState(false);
+  const [api, setApi] = useState<CarouselApi>();
 
   useEffect(() => {
     const el = ref.current;
@@ -65,6 +144,19 @@ export function Process() {
     }, STEP_MS);
     return () => window.clearInterval(id);
   }, [inView]);
+
+  useEffect(() => {
+    api?.scrollTo(active);
+  }, [api, active]);
+
+  useEffect(() => {
+    if (!api) return;
+    const onSelect = () => setActive(api.selectedScrollSnap());
+    api.on("select", onSelect);
+    return () => {
+      api.off("select", onSelect);
+    };
+  }, [api]);
 
   return (
     <section
@@ -124,81 +216,38 @@ export function Process() {
           </div>
         </div>
 
-        {/* Cards de passos */}
-        <div className="reveal mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4" data-reveal>
-          {steps.map((s, i) => {
-            const Icon = s.icon;
-            const isActive = i === active;
-            const isDone = i < active;
-
-            return (
-              <div
+        {/* Cards de passos — mobile: slide, desktop: grid */}
+        <div className="reveal mt-14 md:hidden" data-reveal>
+          <Carousel setApi={setApi} opts={{ loop: true }}>
+            <CarouselContent>
+              {steps.map((s, i) => (
+                <CarouselItem key={s.step}>
+                  <ProcessCard s={s} isActive={i === active} isDone={i < active} />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+          <div className="mt-5 flex justify-center gap-2">
+            {steps.map((s, i) => (
+              <button
                 key={s.step}
-                className={cn(
-                  "group relative flex flex-col overflow-hidden rounded-2xl border bg-surface p-7 transition-all duration-500 hover-lift",
-                  !isActive && !isDone && "border-border",
-                )}
+                type="button"
+                aria-label={`Ir para etapa ${s.step}`}
+                onClick={() => setActive(i)}
+                className="h-1.5 rounded-full transition-all duration-500"
                 style={{
-                  borderColor: isActive ? MINT : isDone ? `${MINT}66` : undefined,
-                  boxShadow: isActive
-                    ? `0 0 0 1px ${MINT}33, 0 24px 60px -24px rgba(75, 214, 162, 0.35)`
-                    : undefined,
+                  width: i === active ? 20 : 6,
+                  background: i === active ? MINT : "var(--border)",
                 }}
-              >
-                {/* canto superior direito: número do passo */}
-                <span
-                  className={cn(
-                    "absolute right-5 top-5 font-display text-4xl font-bold leading-none transition-colors duration-500",
-                    !isActive && !isDone && "text-foreground/10",
-                  )}
-                  style={{ color: isActive || isDone ? `${MINT}40` : undefined }}
-                >
-                  {s.step}
-                </span>
+              />
+            ))}
+          </div>
+        </div>
 
-                {/* linha de destaque no topo */}
-                <span
-                  className="absolute left-0 right-0 top-0 h-1 transition-all duration-500"
-                  style={{ background: isActive || isDone ? MINT : "transparent" }}
-                />
-
-                {/* ícone */}
-                <span
-                  className={cn(
-                    "flex size-12 items-center justify-center rounded-xl border transition-all duration-500",
-                    !isActive && !isDone && "border-border bg-surface-2 text-muted-foreground",
-                  )}
-                  style={
-                    isActive
-                      ? { borderColor: MINT, backgroundColor: `${MINT}1a`, color: MINT }
-                      : isDone
-                        ? { borderColor: `${MINT}66`, color: `${MINT}cc` }
-                        : undefined
-                  }
-                >
-                  <Icon
-                    className={cn(
-                      "size-5 transition-transform duration-500",
-                      isActive && "scale-110",
-                    )}
-                  />
-                </span>
-
-                <h3
-                  className="mt-6 font-display text-xl font-semibold text-foreground transition-colors duration-500"
-                  style={{ color: isActive ? MINT : undefined }}
-                >
-                  {s.title}
-                </h3>
-
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
-
-                <p className="mt-auto pt-5 text-xs leading-relaxed text-foreground/70">
-                  {s.detail}
-                </p>
-              </div>
-            );
-          })}
+        <div className="reveal mt-14 hidden gap-5 md:grid md:grid-cols-2 lg:grid-cols-4" data-reveal>
+          {steps.map((s, i) => (
+            <ProcessCard key={s.step} s={s} isActive={i === active} isDone={i < active} />
+          ))}
         </div>
       </div>
     </section>
