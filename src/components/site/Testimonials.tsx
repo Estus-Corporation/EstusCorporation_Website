@@ -1,8 +1,15 @@
+import { useEffect, useState } from "react";
 import { Quote, Star } from "lucide-react";
 
 import { useReveal } from "@/hooks/use-reveal";
 import { cn } from "@/lib/utils";
 import testimonialsBg from "@/assets/hero-bg-silk.jpg";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
 
 type Testimonial = {
   name: string;
@@ -32,8 +39,100 @@ const testimonials: Testimonial[] = [
   },
 ];
 
+const STEP_MS = 2000;
+const MINT = "#4BD6A2";
+
+function TestimonialCard({ t, className }: { t: Testimonial; className?: string }) {
+  return (
+    <figure
+      className={cn(
+        "surface-panel hover-lift flex min-h-[24rem] flex-col rounded-2xl p-8 md:min-h-[26rem] md:p-10",
+        className,
+      )}
+    >
+      <div className="flex items-center justify-between">
+        <span className="flex gap-1">
+          {Array.from({ length: 5 }).map((_, s) => (
+            <Star
+              key={s}
+              className="size-3.5 fill-current"
+              style={{
+                color: MINT,
+                filter:
+                  "drop-shadow(0 0 6px rgba(75, 214, 162, 0.55)) drop-shadow(0 0 14px rgba(75, 214, 162, 0.3))",
+              }}
+            />
+          ))}
+        </span>
+        <Quote
+          className="size-7"
+          style={{
+            color: MINT,
+            filter:
+              "drop-shadow(0 0 6px rgba(75, 214, 162, 0.55)) drop-shadow(0 0 14px rgba(75, 214, 162, 0.3))",
+          }}
+        />
+      </div>
+      <blockquote className="mt-7 font-display text-lg font-medium leading-relaxed text-foreground/90 md:text-xl">
+        “{t.text}”
+      </blockquote>
+
+      <figcaption className="mt-auto flex items-center gap-3 border-t border-border pt-6">
+        <img
+          src={t.avatar}
+          alt={t.name}
+          loading="lazy"
+          className="size-12 shrink-0 rounded-full border border-border object-cover"
+        />
+        <span className="text-sm">
+          <span className="block font-display font-semibold text-foreground">{t.name}</span>
+          <span className="text-xs text-muted-foreground">{t.role}</span>
+        </span>
+      </figcaption>
+    </figure>
+  );
+}
+
 export function Testimonials() {
   const ref = useReveal<HTMLElement>();
+  const [active, setActive] = useState(0);
+  const [inView, setInView] = useState(false);
+  const [api, setApi] = useState<CarouselApi>();
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setInView(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => setInView(entries.some((e) => e.isIntersecting)),
+      { threshold: 0.35 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [ref]);
+
+  useEffect(() => {
+    if (!inView) return;
+    const id = window.setInterval(() => {
+      setActive((prev) => (prev + 1) % testimonials.length);
+    }, STEP_MS);
+    return () => window.clearInterval(id);
+  }, [inView]);
+
+  useEffect(() => {
+    api?.scrollTo(active);
+  }, [api, active]);
+
+  useEffect(() => {
+    if (!api) return;
+    const onSelect = () => setActive(api.selectedScrollSnap());
+    api.on("select", onSelect);
+    return () => {
+      api.off("select", onSelect);
+    };
+  }, [api]);
 
   return (
     <section
@@ -74,59 +173,49 @@ export function Testimonials() {
           </p>
         </div>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
+        {/* Mobile: slide, desktop: grid */}
+        <div className="reveal mt-14 md:hidden" data-reveal>
+          <Carousel setApi={setApi} opts={{ loop: true }}>
+            <CarouselContent>
+              {testimonials.map((t) => (
+                <CarouselItem key={t.name}>
+                  <TestimonialCard t={t} />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+          <div className="mt-5 flex justify-center gap-2">
+            {testimonials.map((t, i) => (
+              <button
+                key={t.name}
+                type="button"
+                aria-label={`Ir para depoimento ${i + 1}`}
+                onClick={() => setActive(i)}
+                className="h-1.5 rounded-full transition-all duration-500"
+                style={{
+                  width: i === active ? 20 : 6,
+                  background: i === active ? MINT : "var(--border)",
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-14 hidden gap-6 md:grid md:grid-cols-3">
           {testimonials.map((t, i) => (
-            <figure
+            <div
               key={t.name}
               data-reveal
               style={{ "--reveal-delay": `${120 + i * 120}ms` } as React.CSSProperties}
               className={cn(
-                "reveal surface-panel hover-lift flex min-h-[24rem] flex-col rounded-2xl p-8 md:min-h-[26rem] md:p-10",
+                "reveal",
                 i === 1 && "md:scale-[1.06] md:z-10",
                 i === 0 && "md:mr-3",
                 i === 2 && "md:ml-3",
               )}
             >
-              <div className="flex items-center justify-between">
-                <span className="flex gap-1">
-                  {Array.from({ length: 5 }).map((_, s) => (
-                    <Star
-                      key={s}
-                      className="size-3.5 fill-current"
-                      style={{
-                        color: "#4BD6A2",
-                        filter:
-                          "drop-shadow(0 0 6px rgba(75, 214, 162, 0.55)) drop-shadow(0 0 14px rgba(75, 214, 162, 0.3))",
-                      }}
-                    />
-                  ))}
-                </span>
-                <Quote
-                  className="size-7"
-                  style={{
-                    color: "#4BD6A2",
-                    filter:
-                      "drop-shadow(0 0 6px rgba(75, 214, 162, 0.55)) drop-shadow(0 0 14px rgba(75, 214, 162, 0.3))",
-                  }}
-                />
-              </div>
-              <blockquote className="mt-7 font-display text-lg font-medium leading-relaxed text-foreground/90 md:text-xl">
-                “{t.text}”
-              </blockquote>
-
-              <figcaption className="mt-auto flex items-center gap-3 border-t border-border pt-6">
-                <img
-                  src={t.avatar}
-                  alt={t.name}
-                  loading="lazy"
-                  className="size-12 shrink-0 rounded-full border border-border object-cover"
-                />
-                <span className="text-sm">
-                  <span className="block font-display font-semibold text-foreground">{t.name}</span>
-                  <span className="text-xs text-muted-foreground">{t.role}</span>
-                </span>
-              </figcaption>
-            </figure>
+              <TestimonialCard t={t} />
+            </div>
           ))}
         </div>
       </div>
