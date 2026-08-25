@@ -34,7 +34,7 @@ export function Hero() {
         src="/bg-hero.png"
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 size-full object-cover"
+        className="pointer-events-none absolute inset-0 size-full object-cover object-center md:object-right"
       />
       {!reducedMotion && (
         <div className="pointer-events-none absolute inset-0 opacity-40">
@@ -56,14 +56,14 @@ export function Hero() {
       <div className="grain pointer-events-none absolute inset-0 opacity-40" />
       <div className="dot-grid pointer-events-none absolute inset-0 opacity-20 [mask-image:radial-gradient(55%_60%_at_15%_45%,black,transparent)]" />
 
-      <div className="relative mx-auto flex max-w-[1400px] flex-col items-start px-4 text-left sm:px-6 lg:px-8">
+      <div className="relative flex max-w-[1400px] flex-col items-start px-4 text-left sm:px-6 md:mx-0 md:px-10 lg:px-16">
         <p className="reveal eyebrow text-muted-foreground" data-reveal>
           Agência de soluções digitais
         </p>
         <h1
           data-reveal
           style={{ "--reveal-delay": "90ms" } as React.CSSProperties}
-          className="reveal mt-6 max-w-4xl text-[2.5rem] font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl md:mt-7 md:text-[4rem]"
+          className="reveal mt-6 max-w-4xl text-[2.5rem] font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl md:mt-7 md:max-w-xl md:text-[3.25rem] lg:max-w-2xl lg:text-[4rem]"
         >
           A presença digital que{" "}
           <span
@@ -95,7 +95,7 @@ export function Hero() {
         <p
           data-reveal
           style={{ "--reveal-delay": "180ms" } as React.CSSProperties}
-          className="reveal mt-7 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg"
+          className="reveal mt-7 max-w-2xl text-base leading-relaxed text-muted-foreground md:max-w-md md:text-base lg:max-w-xl lg:text-lg"
         >
           Tráfego qualificado, site que converte e crescimento que você consegue medir. Gestão de
           Meta Ads e Google Ads, sites sob medida, SEO e Google Meu Negócio.
