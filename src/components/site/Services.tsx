@@ -5,7 +5,7 @@ import { useReveal } from "@/hooks/use-reveal";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { WHATSAPP_LINK } from "./contact-info";
-import servicesBg from "@/assets/hero-bg-alt.jpg";
+import servicesBg from "@/assets/section-contact-bg.jpg";
 import trafficImg from "@/assets/service-traffic.jpg";
 import sitesImg from "@/assets/service-sites-crop.jpg";
 import seoImg from "@/assets/service-seo.jpg";
@@ -81,7 +81,7 @@ export function Services() {
         alt=""
         aria-hidden="true"
         loading="lazy"
-        className="pointer-events-none absolute inset-0 size-full object-cover opacity-20"
+        className="pointer-events-none absolute inset-0 size-full scale-y-[-1] object-cover opacity-20"
       />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background via-background/85 to-background" />
       <div
@@ -115,7 +115,7 @@ export function Services() {
         <div
           role="tablist"
           aria-label="Serviços"
-          className="reveal mt-12 flex flex-wrap gap-x-2 gap-y-3 border-b border-border"
+          className="reveal mt-12 flex flex-wrap justify-center gap-x-2 gap-y-3 border-b border-border"
           data-reveal
         >
           {services.map((s, i) => (
@@ -132,12 +132,6 @@ export function Services() {
                 active === i ? "text-foreground" : "text-muted-foreground hover:text-foreground",
               )}
             >
-              <span
-                className="font-display text-xs"
-                style={{ color: active === i ? MINT : undefined }}
-              >
-                {s.num}
-              </span>
               {s.short}
               <span
                 className="absolute inset-x-0 -bottom-px h-0.5 rounded-full transition-opacity"
@@ -175,10 +169,6 @@ export function Services() {
 
           <div>
             <div className="flex items-center gap-3">
-              <span className="font-display text-sm font-bold" style={{ color: MINT }}>
-                {current.num}
-              </span>
-              <span className="h-px max-w-10 flex-1 bg-border" />
               {current.tag && (
                 <span
                   className="inline-flex rounded-full border px-2.5 py-0.5 font-display text-[0.65rem] font-semibold uppercase tracking-[0.16em]"

@@ -37,6 +37,7 @@ const steps = [
 ];
 
 const STEP_MS = 3600;
+const MINT = "#4BD6A2";
 
 export function Process() {
   const ref = useReveal<HTMLElement>();
@@ -106,18 +107,16 @@ export function Process() {
         <div className="reveal mx-auto mt-14 max-w-3xl" data-reveal>
           <div className="relative h-1 overflow-hidden rounded-full bg-foreground/10">
             <span
-              className="absolute inset-y-0 left-0 bg-primary transition-all duration-700 ease-out"
-              style={{ width: `${((active + 1) / steps.length) * 100}%` }}
+              className="absolute inset-y-0 left-0 transition-all duration-700 ease-out"
+              style={{ width: `${((active + 1) / steps.length) * 100}%`, background: MINT }}
             />
           </div>
           <div className="mt-3 flex justify-between text-xs font-semibold text-muted-foreground">
             {steps.map((s, i) => (
               <span
                 key={s.step}
-                className={cn(
-                  "transition-colors duration-500",
-                  i <= active ? "text-primary" : "text-muted-foreground",
-                )}
+                className="transition-colors duration-500"
+                style={{ color: i <= active ? MINT : undefined }}
               >
                 {s.step}
               </span>
@@ -137,41 +136,45 @@ export function Process() {
                 key={s.step}
                 className={cn(
                   "group relative flex flex-col overflow-hidden rounded-2xl border bg-surface p-7 transition-all duration-500 hover-lift",
-                  isActive
-                    ? "border-primary shadow-[var(--shadow-glow)]"
-                    : isDone
-                      ? "border-primary/40"
-                      : "border-border",
+                  !isActive && !isDone && "border-border",
                 )}
+                style={{
+                  borderColor: isActive ? MINT : isDone ? `${MINT}66` : undefined,
+                  boxShadow: isActive
+                    ? `0 0 0 1px ${MINT}33, 0 24px 60px -24px rgba(75, 214, 162, 0.35)`
+                    : undefined,
+                }}
               >
                 {/* canto superior direito: número do passo */}
                 <span
                   className={cn(
                     "absolute right-5 top-5 font-display text-4xl font-bold leading-none transition-colors duration-500",
-                    isActive || isDone ? "text-primary/25" : "text-foreground/10",
+                    !isActive && !isDone && "text-foreground/10",
                   )}
+                  style={{ color: isActive || isDone ? `${MINT}40` : undefined }}
                 >
                   {s.step}
                 </span>
 
                 {/* linha de destaque no topo */}
                 <span
-                  className={cn(
-                    "absolute left-0 right-0 top-0 h-1 transition-all duration-500",
-                    isActive || isDone ? "bg-primary" : "bg-transparent",
-                  )}
+                  className="absolute left-0 right-0 top-0 h-1 transition-all duration-500"
+                  style={{ background: isActive || isDone ? MINT : "transparent" }}
                 />
 
                 {/* ícone */}
                 <span
                   className={cn(
                     "flex size-12 items-center justify-center rounded-xl border transition-all duration-500",
-                    isActive
-                      ? "border-primary bg-primary/10 text-primary"
-                      : isDone
-                        ? "border-primary/40 text-primary/80"
-                        : "border-border bg-surface-2 text-muted-foreground",
+                    !isActive && !isDone && "border-border bg-surface-2 text-muted-foreground",
                   )}
+                  style={
+                    isActive
+                      ? { borderColor: MINT, backgroundColor: `${MINT}1a`, color: MINT }
+                      : isDone
+                        ? { borderColor: `${MINT}66`, color: `${MINT}cc` }
+                        : undefined
+                  }
                 >
                   <Icon
                     className={cn(
@@ -182,10 +185,8 @@ export function Process() {
                 </span>
 
                 <h3
-                  className={cn(
-                    "mt-6 font-display text-xl font-semibold transition-colors duration-500",
-                    isActive ? "text-primary" : "text-foreground",
-                  )}
+                  className="mt-6 font-display text-xl font-semibold text-foreground transition-colors duration-500"
+                  style={{ color: isActive ? MINT : undefined }}
                 >
                   {s.title}
                 </h3>

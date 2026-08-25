@@ -1,33 +1,34 @@
 import { Quote, Star } from "lucide-react";
 
 import { useReveal } from "@/hooks/use-reveal";
+import { cn } from "@/lib/utils";
 import testimonialsBg from "@/assets/hero-bg-silk.jpg";
 
 type Testimonial = {
   name: string;
   role: string;
   text: string;
-  initials: string;
+  avatar: string;
 };
 
 const testimonials: Testimonial[] = [
   {
-    name: "Marcelo Ribeiro",
-    role: "Dono de clínica odontológica",
-    text: "Em dois meses o custo por agendamento caiu quase pela metade. A agenda encheu e eu finalmente entendi de onde vem cada paciente.",
-    initials: "MR",
+    name: "Lord Macedo",
+    role: "Espaço para eventos",
+    text: "As campanhas trouxeram muito mais gente pedindo orçamento. Hoje a agenda de eventos vive cheia e sabemos exatamente de onde vem cada contato.",
+    avatar: "/lord.webp",
   },
   {
-    name: "Fernanda Alves",
-    role: "Loja de móveis planejados",
-    text: "O site novo mudou o jogo. Antes o pessoal olhava e saía; agora chega no WhatsApp já sabendo o que quer.",
-    initials: "FA",
+    name: "Allure Engenharia Solar",
+    role: "Empresa de engenharia solar",
+    text: "Os anúncios trouxeram leads muito mais qualificados. Nossa equipe comercial passou a fechar projetos de energia solar toda semana.",
+    avatar: "/allure.jpeg",
   },
   {
-    name: "Rodrigo Pinheiro",
-    role: "Assistência técnica",
-    text: "O Google Meu Negócio começou a trazer ligação todo dia. Coisa que eu nem imaginava que fazia diferença.",
-    initials: "RP",
+    name: "Euforia",
+    role: "Loja de roupa feminina",
+    text: "O movimento na loja e no Instagram deu um salto. As campanhas trazem cliente todo dia, tanto pro físico quanto pro WhatsApp.",
+    avatar: "/Euforia.webp",
   },
 ];
 
@@ -79,7 +80,12 @@ export function Testimonials() {
               key={t.name}
               data-reveal
               style={{ "--reveal-delay": `${120 + i * 120}ms` } as React.CSSProperties}
-              className="reveal surface-panel hover-lift flex min-h-[24rem] flex-col rounded-2xl p-8 md:min-h-[26rem] md:p-10"
+              className={cn(
+                "reveal surface-panel hover-lift flex min-h-[24rem] flex-col rounded-2xl p-8 md:min-h-[26rem] md:p-10",
+                i === 1 && "md:scale-[1.06] md:z-10",
+                i === 0 && "md:mr-3",
+                i === 2 && "md:ml-3",
+              )}
             >
               <div className="flex items-center justify-between">
                 <span className="flex gap-1">
@@ -109,9 +115,12 @@ export function Testimonials() {
               </blockquote>
 
               <figcaption className="mt-auto flex items-center gap-3 border-t border-border pt-6">
-                <span className="flex size-12 shrink-0 items-center justify-center rounded-full border border-border bg-background font-display text-sm font-semibold text-foreground">
-                  {t.initials}
-                </span>
+                <img
+                  src={t.avatar}
+                  alt={t.name}
+                  loading="lazy"
+                  className="size-12 shrink-0 rounded-full border border-border object-cover"
+                />
                 <span className="text-sm">
                   <span className="block font-display font-semibold text-foreground">{t.name}</span>
                   <span className="text-xs text-muted-foreground">{t.role}</span>
