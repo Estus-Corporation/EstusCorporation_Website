@@ -36,6 +36,7 @@ export function Hero() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 size-full object-cover object-center md:object-right"
       />
+      <div className="pointer-events-none absolute inset-0 bg-black/60" />
       {!reducedMotion && (
         <div className="pointer-events-none absolute inset-0 opacity-40">
           <LightRays
