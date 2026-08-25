@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, TrendingUp, Clock, ShieldCheck } from "lucide-react";
+import { ArrowRight, LineChart, Clock, ShieldCheck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useReveal } from "@/hooks/use-reveal";
@@ -7,7 +7,7 @@ import LightRays from "@/components/ui/light-rays";
 import { WHATSAPP_LINK } from "./contact-info";
 
 const stats = [
-  { value: "+3x", label: "retorno médio", icon: TrendingUp },
+  { value: "+3x", label: "retorno médio", icon: LineChart },
   { value: "7 dias", label: "primeiro site no ar", icon: Clock },
   { value: "100%", label: "relatórios claros", icon: ShieldCheck },
 ];
@@ -135,9 +135,9 @@ export function Hero() {
           {stats.map((s, i) => (
             <div
               key={s.label}
-              className={`flex flex-col items-start gap-1.5 px-3 first:pl-0 md:gap-2 ${i > 0 ? "border-l border-border" : ""}`}
+              className={`flex min-w-0 flex-col items-start gap-1.5 px-3 first:pl-0 ${i > 0 ? "border-l border-border" : ""}`}
             >
-              <s.icon className="size-4 text-foreground/70" />
+              <s.icon className="block size-4 shrink-0 text-foreground/70" />
               <span className="font-display text-lg font-semibold leading-none text-foreground md:text-2xl">
                 {s.value}
               </span>
