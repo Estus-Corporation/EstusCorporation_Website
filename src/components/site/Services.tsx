@@ -74,7 +74,7 @@ export function Services() {
     <section
       ref={ref}
       id="servicos"
-      className="relative overflow-hidden section-dark py-28 md:py-36"
+      className="relative overflow-hidden section-dark py-20 md:py-28"
     >
       <img
         src={servicesBg}

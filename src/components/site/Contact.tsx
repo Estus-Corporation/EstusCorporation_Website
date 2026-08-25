@@ -26,7 +26,7 @@ ${form.mensagem}`;
     <section
       ref={revealRef}
       id="contato"
-      className="relative overflow-hidden section-dark py-20 md:py-36"
+      className="relative overflow-hidden section-dark py-16 md:py-28"
     >
       <SectionBackdrop
         image={contactBg}

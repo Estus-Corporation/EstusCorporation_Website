@@ -138,7 +138,7 @@ export function Testimonials() {
     <section
       ref={ref}
       id="depoimentos"
-      className="relative overflow-hidden border-t border-border section-dark py-28 md:py-36"
+      className="relative overflow-hidden border-t border-border section-dark py-20 md:py-28"
     >
       <img
         src={testimonialsBg}
