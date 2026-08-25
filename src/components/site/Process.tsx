@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ClipboardList, Compass, Rocket, TrendingUp } from "lucide-react";
 
 import { useReveal } from "@/hooks/use-reveal";
@@ -40,8 +40,10 @@ const STEP_MS = 3600;
 
 export function Process() {
   const ref = useReveal<HTMLElement>();
+  const railRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const [inView, setInView] = useState(false);
+  const [userInteracted, setUserInteracted] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -57,19 +59,47 @@ export function Process() {
     return () => observer.disconnect();
   }, [ref]);
 
+  // Auto-avanço: pausa assim que o usuário interage com o carrossel (swipe/click)
   useEffect(() => {
-    if (!inView) return;
+    if (!inView || userInteracted) return;
     const id = window.setInterval(() => {
       setActive((prev) => (prev + 1) % steps.length);
     }, STEP_MS);
     return () => window.clearInterval(id);
-  }, [inView]);
+  }, [inView, userInteracted]);
+
+  // No mobile, ao mudar `active` via auto-avanço ou pelos dots, rola o trilho até o card
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+    const card = rail.children[active] as HTMLElement | undefined;
+    if (!card) return;
+    rail.scrollTo({ left: card.offsetLeft - rail.offsetLeft, behavior: "smooth" });
+  }, [active]);
+
+  // Detecta swipe manual no trilho (mobile) e sincroniza `active` + pausa auto-avanço
+  const handleRailScroll = () => {
+    const rail = railRef.current;
+    if (!rail) return;
+    setUserInteracted(true);
+    const cards = Array.from(rail.children) as HTMLElement[];
+    let closest = 0;
+    let min = Infinity;
+    cards.forEach((c, i) => {
+      const d = Math.abs(c.offsetLeft - rail.offsetLeft - rail.scrollLeft);
+      if (d < min) {
+        min = d;
+        closest = i;
+      }
+    });
+    setActive(closest);
+  };
 
   return (
     <section
       ref={ref}
       id="processo"
-      className="relative overflow-hidden section-dark py-28 md:py-36"
+      className="relative overflow-hidden section-dark py-20 md:py-36"
     >
       <img
         src={processBg}
@@ -89,10 +119,7 @@ export function Process() {
             <br />
             <span
               className="md:whitespace-nowrap"
-              style={{
-                color: "#4BD6A2",
-                textShadow: "0 0 18px rgba(75, 214, 162, 0.55), 0 0 42px rgba(75, 214, 162, 0.3)",
-              }}
+              style={{ color: "var(--mint)", textShadow: "var(--mint-glow)" }}
             >
               responsabilidade sobre o resultado
             </span>
@@ -102,8 +129,8 @@ export function Process() {
           </p>
         </div>
 
-        {/* Barra de progresso sutil */}
-        <div className="reveal mx-auto mt-14 max-w-3xl" data-reveal>
+        {/* Barra de progresso — funciona como indicador do carrossel no mobile */}
+        <div className="reveal mx-auto mt-10 max-w-3xl md:mt-14" data-reveal>
           <div className="relative h-1 overflow-hidden rounded-full bg-foreground/10">
             <span
               className="absolute inset-y-0 left-0 bg-primary transition-all duration-700 ease-out"
@@ -112,21 +139,31 @@ export function Process() {
           </div>
           <div className="mt-3 flex justify-between text-xs font-semibold text-muted-foreground">
             {steps.map((s, i) => (
-              <span
+              <button
                 key={s.step}
+                type="button"
+                onClick={() => {
+                  setUserInteracted(true);
+                  setActive(i);
+                }}
                 className={cn(
-                  "transition-colors duration-500",
+                  "flex min-h-11 min-w-11 items-center justify-center cursor-pointer transition-colors duration-500",
                   i <= active ? "text-primary" : "text-muted-foreground",
                 )}
               >
                 {s.step}
-              </span>
+              </button>
             ))}
           </div>
         </div>
 
-        {/* Cards de passos */}
-        <div className="reveal mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4" data-reveal>
+        {/* Cards de passos — trilho com swipe no mobile, grid no desktop */}
+        <div
+          ref={railRef}
+          onScroll={handleRailScroll}
+          data-reveal
+          className="reveal snap-rail no-scrollbar -mx-4 mt-10 gap-4 px-4 pb-2 md:mx-0 md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4"
+        >
           {steps.map((s, i) => {
             const Icon = s.icon;
             const isActive = i === active;
@@ -136,7 +173,7 @@ export function Process() {
               <div
                 key={s.step}
                 className={cn(
-                  "group relative flex flex-col overflow-hidden rounded-2xl border bg-surface p-7 transition-all duration-500 hover-lift",
+                  "snap-rail-item group relative flex w-[82vw] flex-col overflow-hidden rounded-2xl border bg-surface p-7 transition-all duration-500 hover-lift sm:w-[60vw] md:w-auto",
                   isActive
                     ? "border-primary shadow-[var(--shadow-glow)]"
                     : isDone

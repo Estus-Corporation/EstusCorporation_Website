@@ -26,7 +26,7 @@ ${form.mensagem}`;
     <section
       ref={revealRef}
       id="contato"
-      className="relative overflow-hidden section-dark py-28 md:py-36"
+      className="relative overflow-hidden section-dark py-20 md:py-36"
     >
       <SectionBackdrop
         image={contactBg}
@@ -35,17 +35,12 @@ ${form.mensagem}`;
       <div className="ambient-aurora pointer-events-none absolute inset-0 opacity-40" />
       <div className="grain pointer-events-none absolute inset-0 opacity-30" />
 
-      <div className="relative mx-auto grid max-w-[1400px] gap-14 px-4 sm:px-6 lg:px-8 md:grid-cols-2">
-        <div className="reveal" data-reveal>
+      <div className="relative mx-auto grid max-w-[1400px] grid-cols-1 gap-10 px-4 sm:px-6 lg:px-8 md:grid-cols-2 md:gap-14">
+        <div className="reveal order-2 min-w-0 md:order-1" data-reveal>
           <p className="eyebrow">Fale com a gente</p>
           <h2 className="mt-5 text-3xl font-semibold leading-tight md:text-5xl">
             Vamos montar seu{" "}
-            <span
-              style={{
-                color: "#4BD6A2",
-                textShadow: "0 0 18px rgba(75, 214, 162, 0.55), 0 0 42px rgba(75, 214, 162, 0.3)",
-              }}
-            >
+            <span style={{ color: "var(--mint)", textShadow: "var(--mint-glow)" }}>
               plano de crescimento
             </span>
           </h2>
@@ -54,34 +49,38 @@ ${form.mensagem}`;
             passo recomendado — sem compromisso.
           </p>
 
-          <div className="mt-10 space-y-4">
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3 md:mt-10 md:grid-cols-1 md:gap-4">
             <a
               href={WHATSAPP_LINK}
               target="_blank"
               rel="noreferrer"
-              className="surface-panel hover-lift flex items-center gap-4 rounded-xl p-5 hover:-translate-y-1 hover:border-foreground/25"
+              className="surface-panel hover-lift flex items-center gap-3 rounded-xl p-4 hover:-translate-y-1 hover:border-foreground/25 md:gap-4 md:p-5"
             >
-              <MessageCircle className="size-5 text-primary" />
+              <MessageCircle className="size-5 shrink-0 text-primary" />
               <span className="text-sm">
                 WhatsApp
-                <span className="block font-display text-base font-semibold">{PHONE_DISPLAY}</span>
+                <span className="block font-display text-sm font-semibold md:text-base">
+                  {PHONE_DISPLAY}
+                </span>
               </span>
             </a>
             <a
               href={`mailto:${EMAIL}`}
-              className="surface-panel hover-lift flex items-center gap-4 rounded-xl p-5 hover:-translate-y-1 hover:border-foreground/25"
+              className="surface-panel hover-lift flex items-center gap-3 rounded-xl p-4 hover:-translate-y-1 hover:border-foreground/25 md:gap-4 md:p-5"
             >
-              <Mail className="size-5 text-primary" />
-              <span className="text-sm">
+              <Mail className="size-5 shrink-0 text-primary" />
+              <span className="min-w-0 text-sm">
                 E-mail
-                <span className="block font-display text-base font-semibold">{EMAIL}</span>
+                <span className="block truncate font-display text-sm font-semibold md:text-base">
+                  {EMAIL}
+                </span>
               </span>
             </a>
-            <div className="surface-panel flex items-center gap-4 rounded-xl p-5">
-              <Phone className="size-5 text-primary" />
+            <div className="surface-panel flex items-center gap-3 rounded-xl p-4 md:gap-4 md:p-5">
+              <Phone className="size-5 shrink-0 text-primary" />
               <span className="text-sm">
                 Atendimento
-                <span className="block font-display text-base font-semibold">
+                <span className="block font-display text-sm font-semibold md:text-base">
                   Seg a Sex, 9h às 18h
                 </span>
               </span>
@@ -93,7 +92,7 @@ ${form.mensagem}`;
           onSubmit={handleSubmit}
           data-reveal
           style={{ "--reveal-delay": "140ms" } as React.CSSProperties}
-          className="reveal surface-panel space-y-5 rounded-2xl p-8"
+          className="reveal surface-panel order-1 min-w-0 space-y-5 rounded-2xl p-6 md:order-2 md:p-8"
         >
           <div className="space-y-2">
             <Label htmlFor="nome">Seu nome</Label>
@@ -103,6 +102,7 @@ ${form.mensagem}`;
               value={form.nome}
               onChange={(e) => setForm({ ...form, nome: e.target.value })}
               placeholder="Como podemos te chamar?"
+              className="h-11"
             />
           </div>
           <div className="space-y-2">
@@ -112,6 +112,7 @@ ${form.mensagem}`;
               value={form.empresa}
               onChange={(e) => setForm({ ...form, empresa: e.target.value })}
               placeholder="Nome do seu negócio"
+              className="h-11"
             />
           </div>
           <div className="space-y-2">
@@ -121,6 +122,7 @@ ${form.mensagem}`;
               value={form.servico}
               onChange={(e) => setForm({ ...form, servico: e.target.value })}
               placeholder="Tráfego pago, site, SEO, Google Meu Negócio..."
+              className="h-11"
             />
           </div>
           <div className="space-y-2">

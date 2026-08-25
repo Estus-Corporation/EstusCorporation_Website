@@ -74,7 +74,7 @@ export function Services() {
     <section
       ref={ref}
       id="servicos"
-      className="relative overflow-hidden section-dark py-28 md:py-36"
+      className="relative overflow-hidden section-dark py-20 md:py-36"
     >
       <img
         src={servicesBg}
@@ -115,7 +115,7 @@ export function Services() {
         <div
           role="tablist"
           aria-label="Serviços"
-          className="reveal mt-12 flex flex-wrap gap-x-2 gap-y-3 border-b border-border"
+          className="reveal snap-rail no-scrollbar mt-12 gap-x-1 border-b border-border sm:flex-wrap sm:gap-x-2 sm:gap-y-3"
           data-reveal
         >
           {services.map((s, i) => (
@@ -128,7 +128,7 @@ export function Services() {
               id={`servico-aba-${i}`}
               onClick={() => setActive(i)}
               className={cn(
-                "relative flex cursor-pointer items-center gap-2 px-3 py-3.5 text-sm font-semibold transition-colors sm:px-4",
+                "snap-rail-item relative flex cursor-pointer items-center gap-2 whitespace-nowrap px-3 py-3.5 text-sm font-semibold transition-colors sm:px-4",
                 active === i ? "text-foreground" : "text-muted-foreground hover:text-foreground",
               )}
             >
@@ -204,8 +204,8 @@ export function Services() {
             </ul>
             <Button
               asChild
-              size="lg"
-              className="mt-8 w-fit rounded-none bg-foreground text-xs font-bold uppercase tracking-[0.16em] text-background hover:bg-foreground/90"
+              size="xl"
+              className="mt-8 w-full rounded-none bg-foreground text-xs font-bold uppercase tracking-[0.16em] text-background hover:bg-foreground/90 sm:w-fit"
             >
               <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer">
                 Falar sobre esse serviço <ArrowUpRight />

@@ -38,7 +38,7 @@ export function Testimonials() {
     <section
       ref={ref}
       id="depoimentos"
-      className="relative overflow-hidden border-t border-border section-dark py-28 md:py-36"
+      className="relative overflow-hidden border-t border-border section-dark py-20 md:py-36"
     >
       <img
         src={testimonialsBg}
@@ -73,13 +73,13 @@ export function Testimonials() {
           </p>
         </div>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
+        <div className="snap-rail no-scrollbar -mx-4 mt-10 gap-4 px-4 pb-2 md:mx-0 md:mt-14 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 md:pb-0">
           {testimonials.map((t, i) => (
             <figure
               key={t.name}
               data-reveal
               style={{ "--reveal-delay": `${120 + i * 120}ms` } as React.CSSProperties}
-              className="reveal surface-panel hover-lift flex min-h-[24rem] flex-col rounded-2xl p-8 md:min-h-[26rem] md:p-10"
+              className="reveal snap-rail-item surface-panel hover-lift flex w-[85vw] flex-col rounded-2xl p-7 sm:w-[60vw] md:w-auto md:p-10"
             >
               <div className="flex items-center justify-between">
                 <span className="flex gap-1">
