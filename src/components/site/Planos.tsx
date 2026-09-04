@@ -11,12 +11,6 @@ const MINT = "#4BD6A2";
 
 /* ---------------------------------------------------------------- dados */
 
-const highlights = [
-  { value: "+50", label: "conversas geradas por uma única campanha em menos de 3 dias" },
-  { value: "R$ 1,54", label: "CPC (custo por clique) em campanha de captação de leads" },
-  { value: "73 mil", label: "visualizações em uma única campanha em menos de 3 dias" },
-];
-
 type Plan = {
   num: string;
   name: string;
@@ -120,20 +114,6 @@ const steps = [
     title: "Escala",
     desc: "Ajuste de verba e novos formatos conforme o resultado aparece.",
   },
-];
-
-const before = [
-  "Depende do movimento e do boca a boca",
-  "Novidades que pouca gente vê",
-  "Sem dados sobre o que traz cliente",
-  "Conteúdo publicado quando sobra tempo",
-];
-
-const after = [
-  "Anúncios atraindo clientes novos todos os dias",
-  "Ofertas impulsionadas para o público certo",
-  "Relatório mensal com métricas reais",
-  "Calendário de conteúdo entregue todo mês",
 ];
 
 /* ---------------------------------------------------------------- partes */
@@ -297,23 +277,6 @@ export function Planos() {
           </p>
         </div>
 
-        <dl
-          className="reveal mx-auto mt-12 grid max-w-5xl gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-3"
-          data-reveal
-        >
-          {highlights.map((h) => (
-            <div key={h.value} className="bg-surface p-7">
-              <dt
-                className="font-display text-3xl font-bold leading-none md:text-4xl"
-                style={{ color: MINT }}
-              >
-                {h.value}
-              </dt>
-              <dd className="mt-3 text-sm leading-relaxed text-muted-foreground">{h.label}</dd>
-            </div>
-          ))}
-        </dl>
-
         {/* 01 — Planos */}
         <div className="reveal mt-20" data-reveal>
           <SectionLabel num="01">Escolha o seu plano</SectionLabel>
@@ -454,22 +417,8 @@ export function Planos() {
           ))}
         </ol>
 
-        {/* Antes / depois */}
-        <div className="reveal mt-20 grid gap-5 md:grid-cols-2 md:gap-7" data-reveal>
-          <div className="rounded-2xl border border-border bg-background/40 p-7 md:p-9">
-            <p className="font-display text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-              O seu negócio hoje
-            </p>
-            <ul className="mt-7 space-y-5">
-              {before.map((b) => (
-                <li key={b} className="flex gap-3 text-sm leading-relaxed text-muted-foreground">
-                  <Minus className="mt-0.5 size-4 shrink-0 opacity-50" aria-hidden="true" />
-                  {b}
-                </li>
-              ))}
-            </ul>
-          </div>
-
+        {/* Transparência */}
+        <div className="reveal mt-20 grid gap-5 md:grid-cols-[1.3fr_1fr] md:gap-7" data-reveal>
           <div
             className="rounded-2xl border bg-surface p-7 md:p-9"
             style={{
@@ -477,32 +426,6 @@ export function Planos() {
               boxShadow: "0 30px 70px -35px rgba(75, 214, 162, 0.35)",
             }}
           >
-            <p
-              className="font-display text-[0.65rem] font-semibold uppercase tracking-[0.22em]"
-              style={{ color: MINT }}
-            >
-              Com a Estus Corporation
-            </p>
-            <ul className="mt-7 space-y-5">
-              {after.map((a) => (
-                <li key={a} className="flex gap-3 text-sm leading-relaxed text-foreground">
-                  <span
-                    className="mt-0.5 shrink-0 font-display text-sm font-bold"
-                    style={{ color: MINT }}
-                    aria-hidden="true"
-                  >
-                    →
-                  </span>
-                  {a}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Transparência */}
-        <div className="reveal mt-6 grid gap-5 md:grid-cols-[1.3fr_1fr] md:gap-7" data-reveal>
-          <div className="rounded-2xl border border-border bg-surface p-7 md:p-9">
             <h4 className="font-display text-2xl font-semibold text-foreground md:text-3xl">
               Por que <span style={{ color: MINT }}>R$ 800</span>?
             </h4>
