@@ -192,15 +192,27 @@ export function Services() {
                 </li>
               ))}
             </ul>
-            <Button
-              asChild
-              size="lg"
-              className="mt-8 w-fit rounded-none bg-foreground text-xs font-bold uppercase tracking-[0.16em] text-background hover:bg-foreground/90"
-            >
-              <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer">
-                Falar sobre esse serviço <ArrowUpRight />
-              </a>
-            </Button>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button
+                asChild
+                size="lg"
+                className="w-fit rounded-none bg-foreground text-xs font-bold uppercase tracking-[0.16em] text-background hover:bg-foreground/90"
+              >
+                <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer">
+                  Falar sobre esse serviço <ArrowUpRight />
+                </a>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="w-fit rounded-none border-border bg-transparent text-xs font-bold uppercase tracking-[0.16em] text-foreground hover:bg-foreground/10 hover:text-foreground"
+              >
+                <a href="#planos">
+                  Ver planos e valores <ArrowUpRight />
+                </a>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
